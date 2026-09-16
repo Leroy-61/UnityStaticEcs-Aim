@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.felid-force-studios.static-ecs": "https://github.com/Felid-Force-Studios/StaticEcs.git",
+    "com.felid-force-studios.static-pack": "https://github.com/Felid-Force-Studios/StaticPack.git",
     "com.unity.2d.animation": "13.0.4",
     "com.unity.2d.aseprite": "3.0.1",
     "com.unity.2d.psdimporter": "12.0.1",

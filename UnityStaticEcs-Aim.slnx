@@ -33,6 +33,7 @@
   <Project Path="Unity.VisualScripting.Flow.csproj" />
   <Project Path="Unity.PerformanceTesting.csproj" />
   <Project Path="Unity.2D.Tilemap.Extras.Editor.csproj" />
+  <Project Path="FFS.StaticEcs.csproj" />
   <Project Path="UnityEditor.Purchasing.csproj" />
   <Project Path="PsdPlugin.csproj" />
   <Project Path="Unity.Services.Analytics.Editor.csproj" />
@@ -55,6 +56,7 @@
   <Project Path="Unity.Services.Core.Configuration.Editor.csproj" />
   <Project Path="Unity.Services.Core.Configuration.csproj" />
   <Project Path="Unity.Services.Core.Environments.Internal.csproj" />
+  <Project Path="FFS.StaticPack.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />
   <Project Path="Unity.Services.Core.Scheduler.csproj" />
   <Project Path="Unity.AI.Navigation.csproj" />
@@ -73,6 +75,7 @@
   <Project Path="UnityEditor.XR.LegacyInputHelpers.csproj" />
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />
   <Project Path="Unity.2D.Aseprite.Common.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.Services.Core.Device.csproj" />
   <Project Path="Unity.Services.Core.Analytics.csproj" />
   <Project Path="UnityEngine.Purchasing.AppleStub.csproj" />
