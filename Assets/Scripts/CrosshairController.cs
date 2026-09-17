@@ -5,6 +5,8 @@ public class CrosshairController : MonoBehaviour
 {
 void Start()
     {
+        Debug.Log("CROSSHAIR START!");
+        
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
     }
