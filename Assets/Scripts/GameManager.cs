@@ -37,6 +37,10 @@ public void StartGame()
     startButton.SetActive(false);
     crosshair.SetActive(true);
     }
+void Update()
+    {
+        GameSystems.Update();
+    }
 void OnDestroy()
     {
         GameWorld.Destroy();
