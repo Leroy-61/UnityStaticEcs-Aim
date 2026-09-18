@@ -16,20 +16,12 @@ void Start()
         GameWorld.Types().RegisterAll();
         GameSystems.Create();
         GameSystems.Add(new TargetViewSystem());
+        var targetSpawnSystem = new TargetSpawnSystem(targetView);
+        GameSystems.Add(targetSpawnSystem);
+        GameSystems.Add(new TargetHitSystem(crosshair));
         GameSystems.Initialize();
         GameWorld.Initialize();
-
-    var targetEntity = GameWorld.NewEntity<Default>();
-
-        targetEntity.Set(new Target());
-        targetEntity.Set(new Position
-            {
-                Value = new Vector2(3, 5)
-            });
-        targetEntity.Set(new TargetView
-            {
-                Value = targetView
-            });
+        targetSpawnSystem.Spawn();
     }
 
 public void StartGame()
