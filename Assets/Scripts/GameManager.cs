@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 public GameObject crosshair;
 public GameObject startButton;
 public GameObject targetView;
+public TargetSpawnSystem targetSpawnSystem;
 
 void Start()
     {
@@ -14,18 +15,18 @@ void Start()
 
         GameWorld.Create();
         GameWorld.Types().RegisterAll();
+        GameWorld.Initialize();
         GameSystems.Create();
         GameSystems.Add(new TargetViewSystem());
-        var targetSpawnSystem = new TargetSpawnSystem(targetView);
+        targetSpawnSystem = new TargetSpawnSystem(targetView);
         GameSystems.Add(targetSpawnSystem);
-        GameSystems.Add(new TargetHitSystem(crosshair));
+        GameSystems.Add(new TargetHitSystem(crosshair,  targetView));
         GameSystems.Initialize();
-        GameWorld.Initialize();
-        targetSpawnSystem.Spawn();
     }
 
 public void StartGame()
     {
+    targetSpawnSystem.Spawn();
     startButton.SetActive(false);
     crosshair.SetActive(true);
     }
