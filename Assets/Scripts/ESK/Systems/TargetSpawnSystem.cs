@@ -22,10 +22,12 @@ public struct TargetSpawnSystem : ISystem
                 {
                     Value = 0.5f
                 });
+            GameObject newTarget = Object.Instantiate(targetView);
+
             targetEntity.Set(new TargetView
-                {
-                    Value = targetView
-                });
+            {
+                Value = newTarget
+            });
         }
     public void Update()
     {
@@ -39,5 +41,11 @@ public struct TargetSpawnSystem : ISystem
 
             entity.Delete<NeedsSpawn>();
         });
+        int targetCount =3;
+        int count = GameWorld.Query<All<Target>>().EntitiesCount();
+        for (int i = 0; i < (targetCount - count); i++)
+        {
+            Spawn();
+        }
     }
 }
