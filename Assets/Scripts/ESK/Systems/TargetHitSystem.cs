@@ -35,9 +35,12 @@ public struct TargetHitSystem : ISystem
         });
     if (hit)
     {
-    GameWorld.Query<All<NeedsDestroy>>().BatchDestroy();
-    var spawnSystem = new TargetSpawnSystem(targetView);
-        spawnSystem.Spawn();
+        GameWorld.Query().For(
+            static (in NeedsDestroy needsDestroy, in TargetView targetView)=>
+            {
+                UnityEngine.Object.Destroy(targetView.Value);
+            });
+            GameWorld.Query<All<NeedsDestroy>>().BatchDestroy();
     }
     }
 }

@@ -31,6 +31,13 @@ public struct TargetSpawnSystem : ISystem
         }
     public void Update()
     {
+        int startGameNumber = GameWorld.Query<All<GameStarted>>().EntitiesCount();
+            if (startGameNumber == 0)
+            {
+                
+               return;
+            
+            };
         GameWorld.Query().For(
         static (GameWorld.Entity entity, ref Position position, in NeedsSpawn needsSpawn) =>
         {
