@@ -38,15 +38,23 @@ public struct TargetSpawnSystem : ISystem
                return;
             
             };
-        GameWorld.Query().For(
-        static (GameWorld.Entity entity, ref Position position, in NeedsSpawn needsSpawn) =>
-        {
-            position.Value = new Vector2(
-                Random.Range(-5f, 5f),
-                Random.Range(-3f, 3f)
-            );
+        GameWorld.Query().For(static (GameWorld.Entity entity, ref Position position, in NeedsSpawn needsSpawn) =>
+                {
+            bool positionFound = false;
+            while (!positionFound)
+                    {
+                    Vector2 candidatePosition = new Vector2(
+                        Random.Range(-5f, 5f),
+                        Random.Range(-3f, 3f));
 
-            entity.Delete<NeedsSpawn>();
+                    GameWorld.Query<All<Target>>().For(
+                        (GameWorld.Entity entity, in Position foundposition, in TargetRadius foundTargetRadius, in Target foundtarget)=>
+                        {
+                            Vector2 candidatePosition = new Vector2(   
+                        }
+                        );
+                    }; 
+        entity.Delete<NeedsSpawn>();
         });
         int targetCount =3;
         int count = GameWorld.Query<All<Target>>().EntitiesCount();
