@@ -21,3 +21,6 @@
 *.suo
 *.user
 *.userprefs
+
+# Generated IDE solution files
+*.slnx
