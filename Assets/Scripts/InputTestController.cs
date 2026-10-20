@@ -22,4 +22,10 @@ public class InputTestController : MonoBehaviour
             AimAction.action.Disable();
             ShootAction.action.performed -= OnShoot;
         }
+        void Update()
+    {
+        Vector2 mousePlace = AimAction.action.ReadValue<Vector2>();
+        Vector2 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePlace);
+        Debug.Log(worldMousePosition);
+    }
 }
