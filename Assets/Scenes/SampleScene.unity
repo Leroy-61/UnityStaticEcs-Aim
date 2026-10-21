@@ -394,6 +394,8 @@ MonoBehaviour:
   crosshair: {fileID: 88376871}
   startButton: {fileID: 1218472679}
   targetView: {fileID: 4117171869729794048, guid: 221291496f0adb34ba8ca1a11912040a, type: 3}
+  AimAction: {fileID: 5553432887231610622, guid: ef80fa52343894b4f8621778019ac1f8, type: 3}
+  ShootAction: {fileID: 1816683485750286622, guid: ef80fa52343894b4f8621778019ac1f8, type: 3}
 --- !u!4 &560653830
 Transform:
   m_ObjectHideFlags: 0

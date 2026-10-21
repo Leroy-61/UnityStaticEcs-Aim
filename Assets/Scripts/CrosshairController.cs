@@ -12,15 +12,6 @@ void Start()
     }
 void Update()
     {
-    Vector2 mousePosition = Mouse.current.position.ReadValue();
-    Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-    worldPosition.z = 0;
-    transform.position = worldPosition;
-
-    if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            Debug.Log("Shot!");
-        }
     }
 void OnDestroy()
     {
