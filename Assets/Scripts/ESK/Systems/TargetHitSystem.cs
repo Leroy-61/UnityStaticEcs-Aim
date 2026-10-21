@@ -13,11 +13,17 @@ public struct TargetHitSystem : ISystem
         }   
     public void Update()
     {
+        bool hasShoot = true;
         var currentCrosshair = crosshair;
-        if (!Mouse.current.leftButton.wasPressedThisFrame)
+        GameWorld.Query().For(
+        (GameWorld.Entity entity, in ShootEvent shootEvent) =>
         {
-        return;
-        }
+            bool hasShoot = true;
+        });
+        if (!hasShot)
+        {
+            return;
+        };
         bool hit = false;
         GameWorld.Query().For(
         (GameWorld.Entity entity, in Target target, in Position position, in TargetRadius radius) =>

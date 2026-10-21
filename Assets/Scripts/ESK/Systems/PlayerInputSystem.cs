@@ -25,11 +25,18 @@ public struct PlayerInputSystem : ISystem
         {   
             Vector2 mousePosition = aimAction.action.ReadValue<Vector2>();
             Vector2 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            Debug.Log(worldMousePosition);
             GameWorld.Query().For(
                 (GameWorld.Entity entity, in Crosshair crosshair, in Position position) =>
                 {
                     entity.Set(new Position { Value = worldMousePosition });
                 });
+            if (shootAction.action.WasPressedThisFrame())
+            {
+                GameWorld.Query().For(
+            (GameWorld.Entity entity, in Crosshair crosshair, in Position position)=>
+            {
+                entity.Set(new ShootEvent());
+            });
+            }
         }
 }
