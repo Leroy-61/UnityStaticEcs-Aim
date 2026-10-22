@@ -3,8 +3,15 @@ using UnityEngine;
 
 public struct TargetHitSystem : ISystem
 {
+    private TargetPool pool;
+
+        public TargetHitSystem(TargetPool pool)
+        {
+            this.pool = pool;
+        }
     public void Update()
     {
+        TargetPool currentPool = pool;
         bool hasShoot = false;
         GameWorld.Query().For(
         (GameWorld.Entity entity, in ShootEvent shootEvent) =>
@@ -27,21 +34,21 @@ public struct TargetHitSystem : ISystem
         {
             Vector2 targetPosition = position.Value;
             float distance = Vector2.Distance(crosshairPosition, targetPosition);
-            Debug.Log($"Distance: {distance}, Radius: {radius.Value}");
             if (distance <= radius.Value)
                 {
-            Debug.Log("HIT!");
             entity.Set(new NeedsDestroy());
             hit = true;
                 }
         });
     if (hit)
     {
-        GameWorld.Query().For(
-            static (in NeedsDestroy needsDestroy, in TargetView targetView)=>
-            {
-                UnityEngine.Object.Destroy(targetView.Value);
-            });
+            GameWorld.Query().For(
+                (in NeedsDestroy needsDestroy,
+                in TargetView targetView,
+                in TargetPrefab targetPrefab) =>
+                {
+                    currentPool.Release(targetPrefab.Value, targetView.Value);
+                });
             GameWorld.Query<All<NeedsDestroy>>().BatchDestroy();
     }
     GameWorld.Query<All<ShootEvent>>().BatchDelete<ShootEvent>();

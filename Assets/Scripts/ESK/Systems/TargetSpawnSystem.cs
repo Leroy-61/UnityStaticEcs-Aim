@@ -3,15 +3,14 @@ using UnityEngine;
 
 public struct TargetSpawnSystem : ISystem
 {
-    private GameObject targetView;
-    public TargetSpawnSystem(GameObject targetView)
+    private TargetCatalog targetCatalog;
+    public TargetSpawnSystem(TargetCatalog targetCatalog)
         {
-            this.targetView = targetView;
+            this.targetCatalog = targetCatalog;
         }
-    public void Spawn()
+    public void Spawn(GameWorld.Entity targetEntity)
         {
-            Debug.Log("Мишень 5,3 спавн");
-            var targetEntity = GameWorld.NewEntity<Default>();
+            TargetConfig config = targetCatalog.Targets[Random.Range(0, targetCatalog.Targets.Length)];
             targetEntity.Set(new Target());
             targetEntity.Set(new NeedsSpawn());
             targetEntity.Set(new Position
@@ -20,14 +19,12 @@ public struct TargetSpawnSystem : ISystem
                 });
                 targetEntity.Set(new TargetRadius
                 {
-                    Value = 0.5f
+                    Value = config.Radius
                 });
-            GameObject newTarget = Object.Instantiate(targetView);
-
-            targetEntity.Set(new TargetView
-            {
-                Value = newTarget
-            });
+                targetEntity.Set(new TargetPrefab
+                {
+                    Value = config.Prefab
+                });
         }
     public void Update()
     {
@@ -38,42 +35,12 @@ public struct TargetSpawnSystem : ISystem
                return;
             
             };
-        GameWorld.Query().For((GameWorld.Entity entity, ref Position position, in NeedsSpawn needsSpawn) =>
-                {
-                    Vector2 candidatePosition = new Vector2(0,0);
-            bool positionFound = false;
-            while (!positionFound)
-                    {
-                    positionFound = true;
-                    candidatePosition = new Vector2(
-                        Random.Range(-5f, 5f),
-                        Random.Range(-3f, 3f));
-
-                    GameWorld.Query<All<Target>>().For(
-                        (GameWorld.Entity targetEntity, in Position foundposition, in TargetRadius foundTargetRadius, in Target foundtarget)=>
-                        {  
-                            if (targetEntity == entity)
-                                {
-                                    return;
-                                }
-                            float distanceSquared =  (candidatePosition - foundposition.Value).sqrMagnitude;
-                            float minDistanceSquared = ((2.5f*(foundTargetRadius.Value))*(2.5f*(foundTargetRadius.Value)));
-                            if(distanceSquared < minDistanceSquared)
-                                {
-                                    positionFound = false;
-                                }
-                    }
-                );
-            }; 
-        position.Value = candidatePosition;
-        entity.Delete<NeedsSpawn>();
-        }
-        );
-        int targetCount =3;
-        int count = GameWorld.Query<All<Target>>().EntitiesCount();
-        for (int i = 0; i < (targetCount - count); i++)
-        {
-            Spawn();
-        }
+    var spawnSystem = this;
+    GameWorld.Query().For(
+    (GameWorld.Entity entity, in SpawnRequest request) =>
+    {
+        spawnSystem.Spawn(entity);
+    });
+    GameWorld.Query<All<SpawnRequest>>().BatchDelete<SpawnRequest>();
     }
 }

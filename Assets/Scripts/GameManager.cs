@@ -6,8 +6,9 @@ public class GameManager : MonoBehaviour
 {
 
 public GameObject crosshair;
+private TargetPool targetPool;
 public GameObject startButton;
-public GameObject targetView;
+[SerializeField] private TargetCatalog targetCatalog;
 public TargetSpawnSystem targetSpawnSystem;
 private GameWorld.Entity crosshairEntity;
 private GameWorld.Entity gameStateEntity;
@@ -25,13 +26,17 @@ void Start()
         gameStateEntity = GameWorld.NewEntity<Default>();
         crosshairEntity.Set(new Crosshair());
         crosshairEntity.Set(new Position { Value = Vector2.zero });
+        targetPool = new TargetPool();
         GameSystems.Create();
-        GameSystems.Add(new TargetViewSystem());
-        targetSpawnSystem = new TargetSpawnSystem(targetView);
+        GameSystems.Add(new TargetCountSystem());
+        targetSpawnSystem = new TargetSpawnSystem(targetCatalog);
         GameSystems.Add(targetSpawnSystem);
+        GameSystems.Add(new TargetPositionSystem());
+        GameSystems.Add(new TargetViewCreationSystem(targetPool));
+        GameSystems.Add(new TargetViewSystem());
         GameSystems.Add(new PlayerInputSystem(aimAction, shootAction));
         GameSystems.Add(new CrosshairViewSystem(crosshair));
-        GameSystems.Add(new TargetHitSystem());
+        GameSystems.Add(new TargetHitSystem(targetPool));
         GameSystems.Initialize();
         
     }
