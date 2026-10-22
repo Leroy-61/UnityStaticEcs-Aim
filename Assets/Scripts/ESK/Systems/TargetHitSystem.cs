@@ -1,34 +1,30 @@
 using FFS.Libraries.StaticEcs;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public struct TargetHitSystem : ISystem
 {
-    private GameObject crosshair;
-    private GameObject targetView;
-        public TargetHitSystem(GameObject crosshair,GameObject targetView)
-        {
-            this.crosshair = crosshair;
-            this.targetView = targetView;
-        }   
     public void Update()
     {
-        bool hasShoot = true;
-        var currentCrosshair = crosshair;
+        bool hasShoot = false;
         GameWorld.Query().For(
         (GameWorld.Entity entity, in ShootEvent shootEvent) =>
         {
-            bool hasShoot = true;
+            hasShoot = true;
         });
-        if (!hasShot)
+        if (!hasShoot)
         {
             return;
-        };
+        }
+            Vector2 crosshairPosition = Vector2.zero;
+            GameWorld.Query().For(
+            (in Position position, in Crosshair crosshair)=>
+            {
+                crosshairPosition = position.Value;
+            });
         bool hit = false;
         GameWorld.Query().For(
         (GameWorld.Entity entity, in Target target, in Position position, in TargetRadius radius) =>
         {
-            Vector2 crosshairPosition = currentCrosshair.transform.position;
             Vector2 targetPosition = position.Value;
             float distance = Vector2.Distance(crosshairPosition, targetPosition);
             Debug.Log($"Distance: {distance}, Radius: {radius.Value}");
@@ -48,5 +44,6 @@ public struct TargetHitSystem : ISystem
             });
             GameWorld.Query<All<NeedsDestroy>>().BatchDestroy();
     }
+    GameWorld.Query<All<ShootEvent>>().BatchDelete<ShootEvent>();
     }
 }

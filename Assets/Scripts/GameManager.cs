@@ -31,7 +31,7 @@ void Start()
         GameSystems.Add(targetSpawnSystem);
         GameSystems.Add(new PlayerInputSystem(aimAction, shootAction));
         GameSystems.Add(new CrosshairViewSystem(crosshair));
-        GameSystems.Add(new TargetHitSystem(crosshair,  targetView));
+        GameSystems.Add(new TargetHitSystem());
         GameSystems.Initialize();
         
     }
