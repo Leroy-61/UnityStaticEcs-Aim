@@ -9,7 +9,7 @@ public GameObject crosshair;
 private TargetPool targetPool;
 public GameObject startButton;
 [SerializeField] private TargetCatalog targetCatalog;
-public TargetSpawnSystem targetSpawnSystem;
+[SerializeField] private GameObject[] spawnPrefabs;
 private GameWorld.Entity crosshairEntity;
 private GameWorld.Entity gameStateEntity;
 public InputActionReference aimAction;
@@ -29,8 +29,7 @@ void Start()
         targetPool = new TargetPool();
         GameSystems.Create();
         GameSystems.Add(new TargetCountSystem());
-        targetSpawnSystem = new TargetSpawnSystem(targetCatalog);
-        GameSystems.Add(targetSpawnSystem);
+        GameSystems.Add(new TargetSpawnSystem(targetCatalog));
         GameSystems.Add(new TargetPositionSystem());
         GameSystems.Add(new TargetViewCreationSystem(targetPool));
         GameSystems.Add(new TargetViewSystem());
@@ -38,7 +37,21 @@ void Start()
         GameSystems.Add(new CrosshairViewSystem(crosshair));
         GameSystems.Add(new TargetHitSystem(targetPool));
         GameSystems.Initialize();
-        
+        for (int i = 0; i < spawnPrefabs.Length; i++)
+        {
+            if (spawnPrefabs[i] == null)
+            {
+                continue;
+            }
+
+            var requestEntity = GameWorld.NewEntity<Default>();
+            requestEntity.Set(new SpawnRequest
+            {
+                ObjectType = SpawnObjectType.Prefab,
+                Prefab = spawnPrefabs[i],
+                Position = new Vector2(-4f + i * 2f, 2f)
+            });
+        }
     }
 
 public void StartGame()

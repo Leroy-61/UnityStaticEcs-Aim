@@ -5,18 +5,17 @@ public struct TargetPositionSystem : ISystem
 {
     public void Update()
     {
-                GameWorld.Query().For((GameWorld.Entity entity, ref Position position, in NeedsSpawn needsSpawn) =>
-                {
+        GameWorld.Query().For((GameWorld.Entity entity, ref Position position, in NeedsSpawn needsSpawn) =>
+        {
                     Vector2 candidatePosition = new Vector2(0,0);
             bool positionFound = false;
-            while (!positionFound)
-                    {
-                    positionFound = true;
-                    candidatePosition = new Vector2(
-                        Random.Range(-5f, 5f),
-                        Random.Range(-3f, 3f));
-
-                    GameWorld.Query<All<Target>>().For(
+            for (int i = 0; i < 30; i++)
+            {
+                positionFound = true;
+                candidatePosition = new Vector2(
+                Random.Range(-5f, 5f),
+                Random.Range(-3f, 3f));
+                GameWorld.Query<All<Target>>().For(
                         (GameWorld.Entity targetEntity, in Position foundposition, in TargetRadius foundTargetRadius, in Target foundtarget)=>
                         {  
                             if (targetEntity == entity)
@@ -29,13 +28,18 @@ public struct TargetPositionSystem : ISystem
                                 {
                                     positionFound = false;
                                 }
+                        });
+                    if (positionFound)
+                    {
+                        break;
                     }
-                );
-            }; 
+                }       
+        if (!positionFound)
+            {
+                return;
+            } 
         position.Value = candidatePosition;
         entity.Delete<NeedsSpawn>();
-        }
-        );
-
+        });
     }
 }

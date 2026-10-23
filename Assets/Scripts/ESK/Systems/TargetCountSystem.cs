@@ -14,13 +14,22 @@ public struct TargetCountSystem : ISystem
             }   
         int targetCount =3;
         int count = GameWorld.Query<All<Target>>().EntitiesCount();
-        int Requestcount = GameWorld.Query<All<SpawnRequest>>().EntitiesCount();   
-        int missingTargets = targetCount - Requestcount - count;
+        int requestCount = 0;
+        GameWorld.Query().For(
+            (in SpawnRequest request) =>
+            {
+                if (request.ObjectType == SpawnObjectType.Target)
+                {
+                    requestCount++;
+                }
+            });  
+        int missingTargets = targetCount - requestCount - count;
         for (int i = 0;i < missingTargets; i++)
         {
             var entity = GameWorld.NewEntity<Default>();
             entity.Set(new SpawnRequest{
-            ConfigID = 0
+                ObjectType = SpawnObjectType.Target,
+                ConfigID = -1
             });
         }
          

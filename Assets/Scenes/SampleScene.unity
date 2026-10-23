@@ -393,7 +393,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   crosshair: {fileID: 88376871}
   startButton: {fileID: 1218472679}
-  targetView: {fileID: 4117171869729794048, guid: 221291496f0adb34ba8ca1a11912040a, type: 3}
+  targetCatalog: {fileID: 11400000, guid: a3d7c5e200b42244ab0880fba075bb82, type: 2}
+  squarePrefab: {fileID: 5405763483995600811, guid: 55c846147bbc9094dbd09c100b8ae0ac, type: 3}
   aimAction: {fileID: 5553432887231610622, guid: ef80fa52343894b4f8621778019ac1f8, type: 3}
   shootAction: {fileID: 1816683485750286622, guid: ef80fa52343894b4f8621778019ac1f8, type: 3}
 --- !u!4 &560653830
@@ -892,7 +893,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -983,7 +984,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

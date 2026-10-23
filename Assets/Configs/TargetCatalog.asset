@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c241b0bf68cb314f87a2faa7394a03c, type: 3}
   m_Name: TargetCatalog
   m_EditorClassIdentifier: Assembly-CSharp::TargetCatalog
-  Targets: []
+  Targets:
+  - {fileID: 11400000, guid: 8a18a5e28580f3b4380aea76ba318630, type: 2}
+  - {fileID: 11400000, guid: b57ca53282b69c24ba51544a6ce68f77, type: 2}
+  - {fileID: 11400000, guid: 10f59a2ea5f1b084fbbe701fd78cdfc9, type: 2}

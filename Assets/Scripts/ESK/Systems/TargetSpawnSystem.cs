@@ -3,14 +3,25 @@ using UnityEngine;
 
 public struct TargetSpawnSystem : ISystem
 {
-    private TargetCatalog targetCatalog;
-    public TargetSpawnSystem(TargetCatalog targetCatalog)
+        private TargetCatalog targetCatalog;
+
+        public TargetSpawnSystem(TargetCatalog targetCatalog)
         {
             this.targetCatalog = targetCatalog;
         }
-    public void Spawn(GameWorld.Entity targetEntity)
+    public void Spawn(GameWorld.Entity targetEntity, int configID)
         {
-            TargetConfig config = targetCatalog.Targets[Random.Range(0, targetCatalog.Targets.Length)];
+            if (configID == -1)
+            {
+                configID = Random.Range(0, targetCatalog.Targets.Length);
+            }
+
+            if (configID < 0 || configID >= targetCatalog.Targets.Length)
+            {
+                Debug.LogError($"Невозможно создать мишень: неверный ConfigID = {configID}.");
+                return;
+            }
+            TargetConfig config = targetCatalog.Targets[configID];
             targetEntity.Set(new Target());
             targetEntity.Set(new NeedsSpawn());
             targetEntity.Set(new Position
@@ -26,7 +37,7 @@ public struct TargetSpawnSystem : ISystem
                     Value = config.Prefab
                 });
         }
-    public void Update()
+public void Update()
     {
         int startGameNumber = GameWorld.Query<All<GameStarted>>().EntitiesCount();
             if (startGameNumber == 0)
@@ -39,8 +50,33 @@ public struct TargetSpawnSystem : ISystem
     GameWorld.Query().For(
     (GameWorld.Entity entity, in SpawnRequest request) =>
     {
-        spawnSystem.Spawn(entity);
+        if (request.ObjectType == SpawnObjectType.Target)
+            {
+                spawnSystem.Spawn(entity, request.ConfigID);
+                entity.Set(new SpawnRequestProcessed());
+            }
+        else if (request.ObjectType == SpawnObjectType.Prefab)
+        {
+            if (request.Prefab == null)
+            {
+                Debug.LogError("SpawnRequest: не указан префаб.");
+            }
+            else
+            {
+                entity.Set(new Position
+                {
+                    Value = request.Position
+                });
+
+                entity.Set(new TargetPrefab
+                {
+                    Value = request.Prefab
+                });
+            }
+            entity.Set(new SpawnRequestProcessed());
+        }
     });
-    GameWorld.Query<All<SpawnRequest>>().BatchDelete<SpawnRequest>();
+    GameWorld.Query<All<SpawnRequestProcessed>>().BatchDelete<SpawnRequest>();
+    GameWorld.Query<All<SpawnRequestProcessed>>().BatchDelete<SpawnRequestProcessed>();
     }
 }

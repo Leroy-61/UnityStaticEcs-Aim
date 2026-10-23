@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3b02f1f1c453742bc712be5b9c9a15, type: 3}
   m_Name: TargetLarge
   m_EditorClassIdentifier: Assembly-CSharp::TargetConfig
-  Prefab: {fileID: 4117171869729794048, guid: 63791cddd51319b49a126c4c194150c2, type: 3}
-  Radius: 0.25
+  Prefab: {fileID: 4117171869729794048, guid: 93dff20914dfe3f49bdd10f1cf95862c, type: 3}
+  Radius: 0.75

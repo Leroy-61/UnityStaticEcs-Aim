@@ -13,11 +13,9 @@ public class TargetPool
             {
                 GameObject instance = queue.Dequeue();
                 instance.SetActive(true);
-                Debug.Log($"POOL: повторное использование {instance.name}");
                 return instance;
             }
         }
-        Debug.Log($"POOL: создание нового {prefab.name}");
         return Object.Instantiate(prefab);
     }
 
@@ -32,6 +30,5 @@ public class TargetPool
         }
 
         queue.Enqueue(instance);
-        Debug.Log($"POOL: возврат {instance.name}");
     }
 }
